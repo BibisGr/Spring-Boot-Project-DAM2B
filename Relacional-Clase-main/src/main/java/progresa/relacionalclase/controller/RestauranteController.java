@@ -85,5 +85,37 @@ public class RestauranteController {
         return new ResponseEntity<>(new Mensaje("el restaurante eliminado"), HttpStatus.OK);
     }
 
+    @PutMapping("update/{id}")
+    public ResponseEntity<?> update(
+            @PathVariable("id") long id,
+            @RequestBody RestauranteDTO restauranteDto) {
+        if(!restauranteService.existsById(id))
+            return new ResponseEntity(new Mensaje("el restaurante no existe"),
+                    HttpStatus.NOT_FOUND);
+        if (restauranteService.existsByNombre( restauranteDto.getNombre()) && restauranteService.getByNombre(restauranteDto.getNombre()).get().getId() != id)
+                return new ResponseEntity(new Mensaje("el nombre YA EXISTE"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(restauranteDto.getDireccionDto().getCalle()))
+            return new ResponseEntity<>(new Mensaje("el nombre es obligatrio"),  HttpStatus.BAD_REQUEST);
+        Restaurante restaurante = restauranteService.getOne(id).get();
+        restaurante.setNombre(restauranteDto.getNombre());
+
+        Direccion direccion = new Direccion();
+        //controlar que la calle no sea vac'ia
+        if (StringUtils.isBlank(restauranteDto.getDireccionDto().getCalle()))
+            return new ResponseEntity<>(
+                    new Mensaje("la calle no puede estar vacia."),
+                    HttpStatus.BAD_REQUEST);
+        direccion.setCalle(restauranteDto.getDireccionDto().getCalle());
+        if (StringUtils.isBlank(restauranteDto.getDireccionDto().getNumero()))
+            return new ResponseEntity<>(
+                    new Mensaje("el numero no puede estar vacio."),
+                    HttpStatus.BAD_REQUEST);
+        direccion.setNumero(restauranteDto.getDireccionDto().getNumero());
+        direccion.setRestaurante(restaurante);
+        restaurante.setDireccion(direccion);
+
+        restauranteService.save(restaurante);
+        return  new ResponseEntity<>(new Mensaje("restaurante actualizado"), HttpStatus.OK);
+    }
 
 }
