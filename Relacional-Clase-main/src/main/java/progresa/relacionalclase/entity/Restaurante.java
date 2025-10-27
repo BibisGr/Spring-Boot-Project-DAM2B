@@ -24,13 +24,15 @@ public class Restaurante {
     private  String nombre;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="id_restaurante")
+    @JoinColumn(name="id_direccion") //clave ajena
+//    @PrimaryKeyJoinColumn
     private Direccion direccion;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<ListadoImgs> imagenes;
 
-    @ManyToOne
-    @JoinColumn(name="categoria_id", nullable = false)
-    private categoria categoria;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    private Set<ListadoImgs> imagenes;
+//
+//    @ManyToOne
+//    @JoinColumn(name="categoria_id", nullable = false)
+//    private categoria categoria;
 }

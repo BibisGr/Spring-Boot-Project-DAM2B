@@ -6,23 +6,25 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table
+@Table(name = "resennas")
 @Getter
 @Setter
 
-public class ListadoImgs {
+public class Resennas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name="nombre")
-    private String nombre;
-    @Column(name="url")
-    private  String url;
+    @Column(name = "Resenna")
+    private String resenna;
+    @Column(name = "Usuario")
+    private String usuario;
+    @Column(name = "cantEstrellas")
+    private Integer cantEstrellas;
 
 //    @ManyToOne
-//    @JoinColumn(name="restaurante_id", nullable = false)
+//    @JoinColumn(name = "id_restaurante")
 //    @JsonIgnore
 //    private Restaurante restaurante;
 }
